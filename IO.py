@@ -33,7 +33,7 @@ def readFile():
 		
 		
 	except:
-		print("Error")
+		print("Error reading file:")
 		print(sys.exc_info())
 		exit(1)
 
