@@ -8,6 +8,7 @@ path = expanduser("~/.enote.nt")
 prefpath = expanduser("~/.enote.pref")
 
 deftext = "!!!---¤¤¤\nWelcome\nWelcome to ENote!"
+defpref = ["no", "11"]
 
 def readFile():
 	"""
@@ -71,15 +72,59 @@ def writeFile(pageNames, bodies):
 
 
 def readPreferences():
-	pass
+	"""
+	Get preferences from file
+	@rtype: List
+	@return List where [0] if bool for dark theme, [1] is int for font size
+	"""
+	try:
+		if not isfile(prefpath):
+			f = open(prefpath, "a")
+			for p in defpref:
+				f.write(p+"\n")
+			f.close()
+		
+		f = open(prefpath)
+		raw_preferences = f.readlines()
+		for i in range(len(raw_preferences)): raw_preferences[i] = raw_preferences[i].strip("\n")
+		if raw_preferences[0] == "no":
+			raw_preferences[0] = False
+		else: 
+			raw_preferences[0] = True
+		raw_preferences[1] = int(raw_preferences[1])
+		return raw_preferences
+	except:
+		print(sys.exc_info())
+		exit(1)
 	
 	
-def writePreferences():
-	pass
+def writePreferences(preferences):
+	"""
+	Write preferences to file
+	@type preferences: List of preferences
+	@param preferences: List where [0] if bool for dark theme, [1] is int for font size
+	"""
+	try:
+		f = open(prefpath, "w")
+		if preferences[0]:
+			preferences[0] = "yes"
+		else:
+			preferences[0] = "no"
+		preferences[1] = str(preferences[1])
+		print(preferences)
+		text = ""
+		for p in preferences:
+			text += (p+"\n")
+		f.write(text)
+		f.close()
+		
+	except:
+		print(sys.exc_info())
+		exit(1)
+
 	
 	
-	
-	
+
 	
 	
 	
