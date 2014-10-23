@@ -1,8 +1,9 @@
 # (C) 2014 Espen Meidell
 # espen.meidell@gmail.com
 # All rights reserved
-from gi.repository import Gtk
-from IO import readFile, writeFile
+from gi.repository import Gtk, Pango
+from IO import readFile, writeFile, readPreferences
+import preferences
 
 class ENote(Gtk.Window):
 	
@@ -15,9 +16,11 @@ class ENote(Gtk.Window):
 		self.set_default_size(600,400)
 		self.set_border_width(1)
 		self.fscreen = False
+		self.preferences = readPreferences()
 		
 		settings = Gtk.Settings.get_default()
-		#~ settings.set_property("gtk-application-prefer-dark-theme", True)
+		if self.preferences[0]:
+			settings.set_property("gtk-application-prefer-dark-theme", True)
 		
 		self.names = []		#different page names
 		self.editors = []		#to store editors
@@ -32,11 +35,15 @@ class ENote(Gtk.Window):
 		self.addbtn.connect("clicked", self.buttonEvent)
 		self.delbtn = Gtk.ToolButton.new_from_stock(Gtk.STOCK_DELETE)
 		self.delbtn.connect("clicked", self.buttonEvent)
+		self.prefbtn = Gtk.ToolButton.new_from_stock(Gtk.STOCK_PREFERENCES)
+		self.prefbtn.connect("clicked", self.buttonEvent)
 		self.btnbox.add(self.addbtn)
 		self.btnbox.add(self.delbtn)
+		self.btnbox.add(self.prefbtn)
 		self.headerBar.pack_start(self.btnbox)
 		self.addbtn.set_tooltip_text("Add Page")
 		self.delbtn.set_tooltip_text("Delete Page")
+		self.prefbtn.set_tooltip_text("Preferences")
 		
 		self.set_titlebar(self.headerBar)
 		
@@ -60,6 +67,8 @@ class ENote(Gtk.Window):
 			scroll = Gtk.ScrolledWindow()
 			editor = Gtk.TextView()		#editor
 			editor.set_border_width(15)
+			pangoFont = Pango.FontDescription(str(self.preferences[1]))	#font from preference
+			editor.modify_font(pangoFont)
 			editor.get_buffer().set_text(page[1])
 			label = Gtk.Label("<b><big>"+page[0]+"</big></b>")	#label
 			label.set_alignment(0, 0.5)
@@ -86,6 +95,8 @@ class ENote(Gtk.Window):
 			scroll = Gtk.ScrolledWindow()
 			editor = Gtk.TextView()		#editor
 			editor.set_border_width(15)
+			pangoFont = Pango.FontDescription(str(self.preferences[1]))	#font from preference
+			editor.modify_font(pangoFont)
 			label = Gtk.Label("<b><big>"+entry.get_text()+"</big></b>")	#label
 			label.set_alignment(0, 0.5)
 			label.set_use_markup(True)
@@ -121,9 +132,14 @@ class ENote(Gtk.Window):
 			self.addNewPage()
 		elif widget == self.delbtn:
 			self.deletePage()
+		elif widget == self.prefbtn:
+			preferences.run()
 		self.show_all()
 		
 	def keyEvent(self, widget, event):
+		"""
+		Handles keyboard events
+		"""
 		if event.keyval == 65480 and not self.fscreen:
 			self.fullscreen()
 			self.fscreen = True
