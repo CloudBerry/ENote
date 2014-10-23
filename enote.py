@@ -14,9 +14,10 @@ class ENote(Gtk.Window):
 		self.connect("delete-event", self.close)
 		self.set_default_size(600,400)
 		self.set_border_width(1)
+		self.fscreen = False
 		
 		settings = Gtk.Settings.get_default()
-		settings.set_property("gtk-application-prefer-dark-theme", True)
+		#~ settings.set_property("gtk-application-prefer-dark-theme", True)
 		
 		self.names = []		#different page names
 		self.editors = []		#to store editors
@@ -44,7 +45,7 @@ class ENote(Gtk.Window):
 		self.ntb.set_tab_pos(0)
 		
 		
-		
+		self.connect("key-press-event", self.keyEvent)
 		self.createNoteBookTabs()
 		self.add(self.ntb)
 		
@@ -121,6 +122,14 @@ class ENote(Gtk.Window):
 		elif widget == self.delbtn:
 			self.deletePage()
 		self.show_all()
+		
+	def keyEvent(self, widget, event):
+		if event.keyval == 65480 and not self.fscreen:
+			self.fullscreen()
+			self.fscreen = True
+		elif event.keyval == 65480 and self.fscreen:
+			self.unfullscreen()
+			self.fscreen = False
 	
 		
 	def close(self, a,b):

@@ -5,6 +5,7 @@ import sys
 from os.path import expanduser, isfile
 
 path = expanduser("~/.enote.nt")
+prefpath = expanduser("~/.enote.pref")
 
 deftext = "!!!---¤¤¤\nWelcome\nWelcome to ENote!"
 
@@ -68,4 +69,37 @@ def writeFile(pageNames, bodies):
 		print(sys.exc_info())
 		exit(1)
 
+
+def readPreferences():
+	pass
+	
+	
+def writePreferences():
+	pass
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
