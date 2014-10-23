@@ -2,8 +2,11 @@
 # espen.meidell@gmail.com
 # All rights reserved
 import sys
+from os.path import expanduser, isfile
 
-path = "enote.nt"
+path = expanduser("~/.enote.nt")
+
+deftext = "!!!---¤¤¤\nWelcome\nWelcome to ENote!"
 
 def readFile():
 	"""
@@ -13,6 +16,11 @@ def readFile():
 	@return: List of pages 
 	"""
 	try:
+		if not isfile(path):
+			f = open(path, "w")
+			f.write(deftext)
+			f.close()
+		
 		f = open(path)
 		raw_data = f.read()
 		f.close()
