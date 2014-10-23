@@ -84,7 +84,7 @@ def readPreferences():
 				f.write(p+"\n")
 			f.close()
 		
-		f = open(prefpath)
+		f = open(prefpath, "r")
 		raw_preferences = f.readlines()
 		for i in range(len(raw_preferences)): raw_preferences[i] = raw_preferences[i].strip("\n")
 		if raw_preferences[0] == "no":
@@ -124,27 +124,6 @@ def writePreferences(preferences):
 
 	
 	
-
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-

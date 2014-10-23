@@ -3,6 +3,7 @@
 # All rights reserved
 
 from gi.repository import Gtk, Pango
+import IO
 
 
 class Preferences(Gtk.Window):
@@ -72,12 +73,24 @@ class Preferences(Gtk.Window):
 		
 		self.prefgrid.attach(self.okbtn, 1, 3, 1, 1)
 
+		self.getData()
 		self.mainBox.add(self.prefgrid)
 		
 		self.add(self.mainBox)
 		
+	def getData(self):
+		prefs = IO.readPreferences()
+		self.themeswitch.set_active(prefs[0])
+		self.fontspin.set_value(prefs[1])
+		
 	def buttonEvent(self, widget):
-		pass
+		if widget == self.okbtn:
+			dark = self.themeswitch.get_active()
+			size = int(self.fontspin.get_value())
+			IO.writePreferences([dark, size])
+			self.destroy()
+			Gtk.main_quit()
+			
 
 
 def run():
@@ -87,4 +100,4 @@ def run():
 	Gtk.main()
 
 
-run()
+#~ run()

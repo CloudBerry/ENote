@@ -28,7 +28,7 @@ class ENote(Gtk.Window):
 		#Header bar
 		self.headerBar = Gtk.HeaderBar()
 		self.headerBar.set_show_close_button(True)
-		self.headerBar.props.title = "ENote 1.0"
+		self.headerBar.props.title = "ENote 1.5"
 		#Buttons to header bar
 		self.btnbox = Gtk.Box()
 		self.addbtn = Gtk.ToolButton.new_from_stock(Gtk.STOCK_ADD)

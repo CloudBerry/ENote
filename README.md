@@ -1,4 +1,9 @@
-ENOTE
+##ENOTE
+###version 1.0
 
-a simple notebook
+
+####Features
+* Write notes in multiple pages
+* Two themes
+* Fullscreen (F11)
 
