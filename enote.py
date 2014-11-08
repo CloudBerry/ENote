@@ -2,7 +2,7 @@
 # espen.meidell@gmail.com
 # All rights reserved
 from gi.repository import Gtk, Pango
-from IO import readFile, writeFile, readPreferences
+from IO import read_file_bin, write_file_bin, readPreferences
 import preferences
 
 class ENote(Gtk.Window):
@@ -62,7 +62,7 @@ class ENote(Gtk.Window):
 		This method creates the pages for the notebook when the
 		application is launched
 		"""
-		pages = readFile()
+		pages = read_file_bin()
 		for page in pages:
 			scroll = Gtk.ScrolledWindow()
 			editor = Gtk.TextView()		#editor
@@ -158,7 +158,7 @@ class ENote(Gtk.Window):
 			bf = editor.get_buffer()
 			text = bf.get_text(bf.get_start_iter(),bf.get_end_iter(), True)
 			bodies.append(text)
-		writeFile(self.names, bodies)
+		write_file_bin(self.names, bodies)
 		Gtk.main_quit()
 		
 		

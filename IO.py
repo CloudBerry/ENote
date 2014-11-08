@@ -3,8 +3,10 @@
 # All rights reserved
 import sys
 from os.path import expanduser, isfile
+import pickle
 
 path = expanduser("~/.enote.nt")
+binpath = expanduser("~/.enotebin.nt")
 prefpath = expanduser("~/.enote.pref")
 
 deftext = "!!!---¤¤¤\nWelcome\nWelcome to ENote!"
@@ -46,6 +48,28 @@ def readFile():
 		print("Error reading file:")
 		print(sys.exc_info())
 		exit(1)
+		
+def read_file_bin():
+	"""
+	Returns list of pages from file
+	
+	@rtype: List of string
+	@return: List of pages 
+	"""
+	if not isfile(binpath):
+		write_file_bin(["Hello"], ["Welcome!"])
+	try:
+		f = open(binpath, "br")
+		data = pickle.load(f)
+		f.close()
+		ret_pages = []
+		for i,d in enumerate(data[0]):
+			ret_pages.append([d, data[1][i]])
+		return ret_pages
+	except:
+		print("Error reading file:")
+		print(sys.exc_info())
+		exit(1)
 
 def writeFile(pageNames, bodies):
 	"""
@@ -69,7 +93,29 @@ def writeFile(pageNames, bodies):
 	except:
 		print(sys.exc_info())
 		exit(1)
-
+		
+def write_file_bin(pageNames, bodies):
+	"""
+	Writes pages to binary file 
+	@type pageNames: List of strings
+	@param pageNames: List of page titles
+	@type bodies: List of strings
+	@param bodies: Content of the pages
+	"""
+	try:
+		f = open(binpath, "bw")
+		pickle.dump((pageNames, bodies), f)
+		f.close()
+	
+	except:
+		print(sys.exc_info())
+		exit(1)
+	
+nms = ["Test001","Test002","Test003"]
+bds = ["Hei alle sammen, hvordan går det?", "Jeg har det bra!", "Dette fungerer forhåpentligvis"]
+#~ write_file_bin(nms, bds)
+#~ print(read_file_bin())
+#~ print(readFile())
 
 def readPreferences():
 	"""
@@ -122,8 +168,6 @@ def writePreferences(preferences):
 		print(sys.exc_info())
 		exit(1)
 
-	
-	
-	
+
 	
 	
